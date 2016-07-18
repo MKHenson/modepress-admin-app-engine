@@ -1,0 +1,32 @@
+#!/bin/bash -e
+{ # this ensures the entire script is downloaded #
+
+# Stops the execution of a script if a command or pipeline has an error
+set -e
+
+# Functiom that prints the latest stable version
+version() {
+  echo "0.1.0"
+}
+
+echo "Downloading latest version from github $(version)"
+
+#download latest
+wget https://github.com/MKHenson/modepress-admin-app-engine/archive/v$(version).zip
+unzip -o "v$(version).zip" "modepress-admin-app-engine-$(version)/*"
+
+# Moves the server folder to the current directory
+cp -r modepress-admin-app-engine-$(version)/* .
+
+# Remove modepress-admin folder
+if [ -d "modepress-admin-app-engine-$(version)" ]; then
+	rm modepress-admin-app-engine-$(version) -R
+fi
+
+# Remove the zip file
+rm "v$(version).zip"
+
+# All done
+echo "Modepress App-engine Plugin v$(version) successfully downloaded"
+exit
+} # this ensures the entire script is downloaded #
