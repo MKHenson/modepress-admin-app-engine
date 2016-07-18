@@ -520,8 +520,7 @@ declare module clientAdmin {
     class ItemPanel implements ng.IDirective {
         restrict: string;
         transclude: {
-            'preview': string;
-            'content': string;
+            [slot: string]: string;
         };
         templateUrl: string;
         scope: {
@@ -612,7 +611,7 @@ declare module clientAdmin {
 }
 declare var _users: string;
 declare var _cache: string;
-declare var _plugins: Array<ModepressAdmin.IAdminPlugin>;
+declare var _plugins: Array<clientAdmin.IAdminPlugin>;
 /**
 * The admin code for the website
 */
