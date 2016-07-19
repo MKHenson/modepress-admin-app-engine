@@ -26,6 +26,7 @@ node_modules/
 lib/temp-css/
 third-party/
 dist/
+.vscode/
 
 changes.md
 
