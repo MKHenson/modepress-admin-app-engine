@@ -3,7 +3,7 @@
     "command": "gulp",
     "isShellCommand": true,
     "args": [
-         "--no-color"
+         "--dir=../modepress-admin/dist/plugins/app-engine"
     ],
     "tasks": [
 		{

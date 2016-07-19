@@ -1,0 +1,15 @@
+{
+  "name": "modepress-admin-app-engine",
+  "version": "0.1.0",
+  "description": "A small plugin for the modepress-admin app to manage the app-engine backend",
+  "main": "gulpfile.js",
+  "author": "Mathew Henson",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^2.13.6",
+    "gulp-download": "^0.0.1",
+    "gulp-rename" :"^1.2.2",
+    "yargs": "^4.8.1"
+  }
+}
