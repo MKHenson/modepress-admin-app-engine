@@ -1,7 +1,7 @@
 ﻿module HatcheryPlugin
 {
     /*
-    * The payment type of the user (This must match those in the app-engine enum)
+    * The payment type of the user (This must match those in the hatchery editor enum)
     */
     export enum UserPlan
     {

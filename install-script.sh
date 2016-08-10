@@ -12,21 +12,21 @@ version() {
 echo "Downloading latest version from github $(version)"
 
 #download latest
-wget https://github.com/MKHenson/modepress-admin-app-engine/archive/v$(version).zip
-unzip -o "v$(version).zip" "modepress-admin-app-engine-$(version)/*"
+wget https://github.com/PixelSwarm/modepress-admin-hatchery/archive/v$(version).zip
+unzip -o "v$(version).zip" "modepress-admin-hatchery-$(version)/*"
 
 # Moves the server folder to the current directory
-cp -r modepress-admin-app-engine-$(version)/* .
+cp -r modepress-admin-hatchery-$(version)/* .
 
 # Remove modepress-admin folder
-if [ -d "modepress-admin-app-engine-$(version)" ]; then
-	rm modepress-admin-app-engine-$(version) -R
+if [ -d "modepress-admin-hatchery-$(version)" ]; then
+	rm modepress-admin-hatchery-$(version) -R
 fi
 
 # Remove the zip file
 rm "v$(version).zip"
 
 # All done
-echo "Modepress App-engine Plugin v$(version) successfully downloaded"
+echo "Modepress Hatchery Plugin v$(version) successfully downloaded"
 exit
 } # this ensures the entire script is downloaded #

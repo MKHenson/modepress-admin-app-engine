@@ -1,7 +1,7 @@
 {
-  "name": "modepress-admin-app-engine",
+  "name": "modepress-admin-hatchery",
   "version": "0.1.0",
-  "description": "A small plugin for the modepress-admin app to manage the app-engine backend",
+  "description": "A small plugin for the modepress-admin app to manage the hatchery backend",
   "main": "gulpfile.js",
   "author": "Mathew Henson",
   "license": "MIT",

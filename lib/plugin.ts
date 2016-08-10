@@ -10,7 +10,7 @@ module HatcheryPlugin
         {
             _plugins
             this.dashboardLinks = [{
-                icon: "/plugins/app-engine/media/hatchery-icon.png",
+                icon: "/plugins/hatchery/media/hatchery-icon.png",
                 label: "Hatchery",
                 state: "default.hatchery-users",
                 children: [{
@@ -19,7 +19,7 @@ module HatcheryPlugin
                     state: "default.hatchery-users"
                 },
                 {
-                    icon: "/plugins/app-engine/media/hatchery-plugins.png",
+                    icon: "/plugins/hatchery/media/hatchery-plugins.png",
                     label: "Plugins",
                     state: "default.hatchery-plugins"
                 }]
@@ -41,7 +41,7 @@ module HatcheryPlugin
         {
             stateProvider
                 .state('default.hatchery-plugins', <ng.ui.IState>{
-                    templateUrl: 'plugins/app-engine/templates/hatchery-plugins.html',
+                    templateUrl: 'plugins/hatchery/templates/hatchery-plugins.html',
                     authenticate: true,
                     controller: "pluginCtrl",
                     controllerAs: "controller",

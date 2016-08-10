@@ -1,5 +1,5 @@
 # Modepress Admin
-A small plugin for the Modepress admin app to manage the various aspects of the app-engine
+A small plugin for the Modepress admin app to manage the various aspects of the hatchery
 
 ## Current stable version
 * v0.1.0
@@ -11,12 +11,12 @@ A small plugin for the Modepress admin app to manage the various aspects of the 
 ## Installation
 
 1) Make sure the requirements are installed and running
-2) Go into your modepress admin project/plugins folder and create a folder where you want to store the app-engine project
+2) Go into your modepress admin project/plugins folder and create a folder where you want to store the hatchery project
 
 ```
 cd /[LOCATION_OF_ADMIN]/plugins  (you might need to created plugins if it doesnt exist)
-mkdir app-engine
-cd app-engine
+mkdir hatchery
+cd hatchery
 ```
 
 3) Run as an admin / or make sure you have write privileges in the folder
@@ -27,10 +27,10 @@ sudo su
 4) Download the source code from github
 
 ```
-curl -o- https://raw.githubusercontent.com/MKHenson/modepress-admin-app-engine/master/install-script.sh | bash
+curl -o- https://raw.githubusercontent.com/MKHenson/modepress-admin-hatchery/master/install-script.sh | bash
 ```
 
-This downloads the latest app-engine project into the current folder.
+This downloads the latest hatchery project into the current folder.
 
 5) Install the build dependencies, and then build the project
 
@@ -50,7 +50,7 @@ Specifically We need to add the "/dist/index.js" as a plugin file in the modepre
 * Find the json block that defines the admin app
 * Within the 'paths' section:
  - In the 'plugins' array, add the plugin js file generated in the dist folder (Add this if one doesnt exist)
- - In the 'variables' set a new variable: 'appEngineUrl' and specify the url of where app-engine resides (Add this if one doesnt exist)
+ - In the 'variables' set a new variable: 'appEngineUrl' and specify the url of where hatchery resides (Add this if one doesnt exist)
 ```
 "servers": [{
 		"host": "admin.webinate.dev",
@@ -60,7 +60,7 @@ Specifically We need to add the "/dist/index.js" as a plugin file in the modepre
 		  "path": "*",
 		  "index": "D:/projects/modepress-admin/dist/index.jade",
 
-		  "plugins": ["/plugins/app-engine/plugin.js"],
+		  "plugins": ["/plugins/hatchery/plugin.js"],
 		  "variables": { "appEngineUrl" : "http://animate.webinate.dev" }
 
 		}]
