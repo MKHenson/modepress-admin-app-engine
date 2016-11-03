@@ -15,11 +15,11 @@
     * A Class for managing the plugins screen
     */
     export class PluginCtrl {
-        public plugins: Array<Engine.IPlugin>;
+        public plugins: Array<HatcheryServer.IPlugin>;
         public error: boolean;
         public errorMsg: string;
         public loading: boolean;
-        public pluginToken: Engine.IPlugin;
+        public pluginToken: HatcheryServer.IPlugin;
         public showNewPluginForm: boolean;
         public editMode: boolean;
         public scope: any;
@@ -57,7 +57,7 @@
             scope.removePlugin = this.removePlugin.bind( this );
         }
 
-        editPluginMode( plugin: Engine.IPlugin ) {
+        editPluginMode( plugin: HatcheryServer.IPlugin ) {
             this.newPluginMode();
             this.editMode = true;
             this.loading = true;
@@ -65,6 +65,7 @@
 
             this.http.get<ModepressAddons.IGetPlugins>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${plugin._id}` ).then(( response ) => {
                 this.pluginToken = response.data!.data[ 0 ];
+                this.pluginToken.versions = JSON.stringify( this.pluginToken.versions ) as any;
 
                 this.loading = false;
             });
@@ -73,7 +74,7 @@
         /**
         * Removes a plugin
         */
-        removePlugin( plugin: Engine.IPlugin ) {
+        removePlugin( plugin: HatcheryServer.IPlugin ) {
             this.loading = true;
             this.error = false;
             this.errorMsg = '';
@@ -107,6 +108,9 @@
                         const toRet = this.http.get<ModepressAddons.IGetPlugins>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins?index=${index}&limit=${limit}&search=${this.searchKeyword}` );
                         toRet.then(( response ) => {
                             this.plugins = response.data!.data;
+                            for ( const plugin of this.plugins )
+                                plugin.versions = JSON.stringify( plugin.versions ) as any;
+
                             resolve( response.data!.count );
 
                         }).catch(( err: Error ) => {
@@ -138,8 +142,11 @@
             this.loading = true;
             const pluginToken = this.pluginToken;
 
+            pluginToken.versions = JSON.parse(( this.pluginToken as any ).versions );
+
             if ( this.editMode ) {
                 this.http.put<Modepress.IGetPost>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${pluginToken._id}`, pluginToken ).then(( token ) => {
+
                     if ( token.data!.error ) {
                         this.error = true;
                         this.errorMsg = token.data!.message;
@@ -152,6 +159,8 @@
                                 break;
                             }
                         pluginToken.lastModified = Date.now();
+
+                        pluginToken.versions = JSON.stringify( pluginToken.versions ) as any;
                     }
 
                     this.loading = false;
@@ -205,10 +214,8 @@
                 name: '',
                 description: '',
                 plan: UserPlan.Free,
-                deployables: [],
                 image: '',
-                author: 'Mathew Henson',
-                version: '0.0.1'
+                author: 'Mathew Henson'
             };
 
             this.editMode = false;

@@ -9,4 +9,4 @@
 /// <reference path='./definitions/required/modepress-admin.d.ts' />
 /// <reference path='./definitions/required/modepress-admin-plugin.d.ts' />
 /// <reference path='./definitions/required/modepress-client.d.ts' />
-/// <reference path='./definitions/required/app-engine.d.ts' />
+/// <reference path='./definitions/required/hatchery-server.d.ts' />

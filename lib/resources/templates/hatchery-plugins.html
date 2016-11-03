@@ -45,17 +45,13 @@
 						<div class="error animate-show" ng-show="newPluginForm.nTitle.$error.required && (newPluginForm.$submitted || newPluginForm.nTitle.$touched)">Please enter a valid name</div>
 					</detail>
 
-					<detail text="'Version'" info="'The version of this plugin'">
-						<input type="text" name="nVersion" ng-model="controller.pluginToken.version" ng-minlength="1" required />
-						<div class="error animate-show" ng-show="newPluginForm.nVersion.$error.required && (newPluginForm.$submitted || newPluginForm.nVersion.$touched)">Please enter a valid version</div>
+					<detail text="'Versions'" info="'The versions json of this plugin. This string will be parsed as a json before upload'">
+						<input type="text" name="nVersion" ng-model="controller.pluginToken.versions" ng-minlength="1" required />
+						<div class="error animate-show" ng-show="newPluginForm.nVersion.$error.required && (newPluginForm.$submitted || newPluginForm.nVersion.$touched)">Please enter a valid versions string</div>
 					</detail>
 
 					<detail text="'Description'" info="'A short description of what the plugin does'">
 						<input type="text" ng-model="controller.pluginToken.description" />
-					</detail>
-
-					<detail text="'URL'" info="'The URL of the JS plugin for the editor'">
-						<input type="text" ng-model="controller.pluginToken.url" />
 					</detail>
 
 					<detail text="'Visibility'" info="'If ticked then the plugin is available for users'">
@@ -88,7 +84,7 @@
 					<panel-preview>
 						<div class="view-item-label date">Created: {{plugin.createdOn | date:"MM/dd/yyyy 'at' h:mma"}}</div>
 						<div class="view-item-label date nav-button red-highlight"><a href="" ng-click="controller.editPluginMode(plugin)">Edit</a></div>
-						<div class="view-item-label"><b>{{plugin.name}}</b> : <span class="slug">{{plugin.version}}</span></div>
+						<div class="view-item-label"><b>{{plugin.name}}</b></div>
 					</panel-preview>
 					<panel-content>
 						<detail text="'ID'">
@@ -97,14 +93,11 @@
 						<detail text="'Name'">
 							<div class="textbox">{{plugin.name}}</div>
 						</detail>
-						<detail text="'Version'">
-							<div class="textbox">{{plugin.version}}</div>
+						<detail text="'Versions'">
+							<div class="textbox">{{ plugin.versions }}</div>
 						</detail>
 						<detail text="'Description'">
 							<div class="textbox">{{plugin.description}}</div>
-						</detail>
-						<detail text="'URL'">
-							<div class="textbox">{{plugin.url}}</div>
 						</detail>
 						<detail text="'Visibility'">
 							<div class="textbox">{{(plugin.isPublic ? "Public" : "Private")}}</div>
