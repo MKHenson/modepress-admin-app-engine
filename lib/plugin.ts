@@ -1,24 +1,24 @@
 ﻿declare var _variables: { [ name: string ]: string };
 
-module HatcheryPlugin {
+namespace HatcheryPlugin {
     export class AppEnginePlugin implements clientAdmin.IAdminPlugin {
         dashboardLinks: Array<clientAdmin.IDashLik>;
 
         constructor() {
             _plugins
             this.dashboardLinks = [ {
-                icon: "/plugins/hatchery/media/hatchery-icon.png",
-                label: "Hatchery",
-                state: "default.hatchery-users",
+                icon: '/plugins/hatchery/media/hatchery-icon.png',
+                label: 'Hatchery',
+                state: 'default.hatchery-users',
                 children: [ {
-                    icon: "/media/images/users.png",
-                    label: "Users",
-                    state: "default.hatchery-users"
+                    icon: '/media/images/users.png',
+                    label: 'Users',
+                    state: 'default.hatchery-users'
                 },
                 {
-                    icon: "/plugins/hatchery/media/hatchery-plugins.png",
-                    label: "Plugins",
-                    state: "default.hatchery-plugins"
+                    icon: '/plugins/hatchery/media/hatchery-plugins.png',
+                    label: 'Plugins',
+                    state: 'default.hatchery-plugins'
                 }]
             }];
         }
@@ -27,7 +27,7 @@ module HatcheryPlugin {
         * Called when the application module is being setup
         */
         onInit( mod: angular.IModule ): void {
-            mod.controller( "pluginCtrl", PluginCtrl );
+            mod.controller( 'pluginCtrl', PluginCtrl );
         }
 
         /**
@@ -38,9 +38,9 @@ module HatcheryPlugin {
                 .state( 'default.hatchery-plugins', <ng.ui.IState>{
                     templateUrl: 'plugins/hatchery/templates/hatchery-plugins.html',
                     authenticate: true,
-                    controller: "pluginCtrl",
-                    controllerAs: "controller",
-                    url: "hatchery-plugins"
+                    controller: 'pluginCtrl',
+                    controllerAs: 'controller',
+                    url: 'hatchery-plugins'
                 });
         }
     }

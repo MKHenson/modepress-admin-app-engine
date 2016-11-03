@@ -1,4 +1,4 @@
-﻿module HatcheryPlugin {
+﻿namespace HatcheryPlugin {
     /*
     * The payment type of the user (This must match those in the hatchery editor enum)
     */
@@ -31,16 +31,16 @@
         public searchKeyword: string;
         private _q: ng.IQService;
 
-        public static $inject = [ "$scope", "$http", "$q" ];
+        public static $inject = [ '$scope', '$http', '$q' ];
         constructor( scope, http: ng.IHttpService, $q: ng.IQService ) {
             this.plugins = [];
             this.error = false;
-            this.errorMsg = "";
+            this.errorMsg = '';
             this.loading = false;
             this.http = http;
             this.scope = scope;
-            this.successMessage = "";
-            this.searchKeyword = "";
+            this.successMessage = '';
+            this.searchKeyword = '';
             this.editMode = false;
             this.pluginToken = {};
             this.pager = this.createPagerRemote();
@@ -48,7 +48,7 @@
 
             scope.planEnum = UserPlan;
             scope.plans = [];
-            for ( var i in UserPlan )
+            for ( const i in UserPlan )
                 if ( !isNaN( parseInt( i ) ) )
                     scope.plans.push( { value: parseFloat( i ), name: UserPlan[ i ] });
                 else
@@ -63,11 +63,10 @@
             this.loading = true;
             this.showNewPluginForm = true;
 
-            var that = this;
-            that.http.get<ModepressAddons.IGetPlugins>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${plugin._id}` ).then( function( response ) {
-                that.pluginToken = response.data.data[ 0 ];
+            this.http.get<ModepressAddons.IGetPlugins>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${plugin._id}` ).then(( response ) => {
+                this.pluginToken = response.data.data[ 0 ];
 
-                that.loading = false;
+                this.loading = false;
             });
         }
 
@@ -76,48 +75,46 @@
         */
         removePlugin( plugin: Engine.IPlugin ) {
             this.loading = true;
-            var that = this;
-            that.error = false;
-            that.errorMsg = "";
+            this.error = false;
+            this.errorMsg = '';
 
-            that.http.delete<Modepress.IResponse>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${plugin._id}` ).then( function( response ) {
-                if ( that.pluginToken = response.data.error ) {
-                    that.error = true;
-                    that.errorMsg = response.data.message;
+            this.http.delete<Modepress.IResponse>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${plugin._id}` ).then(( response ) => {
+                if ( this.pluginToken = response.data.error ) {
+                    this.error = true;
+                    this.errorMsg = response.data.message;
                     return;
                 }
 
-                that.plugins.splice( that.plugins.indexOf( plugin ), 1 );
-            }).catch( function( err: Error ) {
-                that.error = true;
-                that.errorMsg = err.message;
-            }).finally( function() {
+                this.plugins.splice( this.plugins.indexOf( plugin ), 1 );
+            }).catch(( err: Error ) => {
+                this.error = true;
+                this.errorMsg = err.message;
+            }).finally(() => {
                 ( <any>plugin ).confirmDelete = false;
-                that.loading = false;
+                this.loading = false;
             });
         }
 
         createPagerRemote(): clientAdmin.IPagerRemote {
-            var that = this;
-            var remote: clientAdmin.IPagerRemote = {
-                update: function( index?: number, limit?: number ) {
-                    return new that._q<number>( function( resolve, reject ) {
+            const remote: clientAdmin.IPagerRemote = {
+                update: ( index?: number, limit?: number ) => {
+                    return new this._q<number>(( resolve, reject ) => {
 
-                        that.loading = true;
-                        that.error = false;
-                        that.errorMsg = "";
+                        this.loading = true;
+                        this.error = false;
+                        this.errorMsg = '';
 
-                        var toRet = that.http.get<ModepressAddons.IGetPlugins>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins?index=${index}&limit=${limit}&search=${that.searchKeyword}` );
-                        toRet.then( function( response ) {
-                            that.plugins = response.data.data;
+                        const toRet = this.http.get<ModepressAddons.IGetPlugins>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins?index=${index}&limit=${limit}&search=${this.searchKeyword}` );
+                        toRet.then(( response ) => {
+                            this.plugins = response.data.data;
                             resolve( response.data.count );
 
-                        }).catch( function( err: Error ) {
-                            that.error = true;
-                            that.errorMsg = err.message;
+                        }).catch(( err: Error ) => {
+                            this.error = true;
+                            this.errorMsg = err.message;
 
-                        }).finally( function() {
-                            that.loading = false
+                        }).finally(() => {
+                            this.loading = false
                         });
                     });
                 }
@@ -133,46 +130,45 @@
         createPlugin() {
             this.scope.newPluginForm.$setSubmitted();
 
-            if ( this.scope.newPluginForm.$valid == false )
+            if ( this.scope.newPluginForm.$valid === false )
                 return;
 
-            var that = this;
             this.error = false;
-            this.errorMsg = "";
+            this.errorMsg = '';
             this.loading = true;
-            var pluginToken = this.pluginToken;
+            const pluginToken = this.pluginToken;
 
             if ( this.editMode ) {
-                that.http.put<Modepress.IGetPost>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${pluginToken._id}`, pluginToken ).then( function( token ) {
+                this.http.put<Modepress.IGetPost>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${pluginToken._id}`, pluginToken ).then(( token ) => {
                     if ( token.data.error ) {
-                        that.error = true;
-                        that.errorMsg = token.data.message;
+                        this.error = true;
+                        this.errorMsg = token.data.message;
                     }
                     else {
-                        that.successMessage = token.data.message;
-                        for ( var i = 0, l = that.plugins.length; i < l; i++ )
-                            if ( that.plugins[ i ]._id == that.pluginToken._id ) {
-                                that.plugins.splice( i, 1, that.pluginToken );
+                        this.successMessage = token.data.message;
+                        for ( let i = 0, l = this.plugins.length; i < l; i++ )
+                            if ( this.plugins[ i ]._id === this.pluginToken._id ) {
+                                this.plugins.splice( i, 1, this.pluginToken );
                                 break;
                             }
                         pluginToken.lastModified = Date.now();
                     }
 
-                    that.loading = false;
+                    this.loading = false;
                 });
             }
             else {
-                that.http.post<ModepressAddons.ICreatePlugin>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins`, pluginToken ).then( function( response ) {
+                this.http.post<ModepressAddons.ICreatePlugin>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins`, pluginToken ).then(( response ) => {
                     if ( response.data.error ) {
-                        that.error = true;
-                        that.errorMsg = response.data.message;
+                        this.error = true;
+                        this.errorMsg = response.data.message;
                     }
                     else {
-                        that.plugins.push( response.data.data );
-                        that.showNewPluginForm = false;
+                        this.plugins.push( response.data.data );
+                        this.showNewPluginForm = false;
                     }
 
-                    that.loading = false;
+                    this.loading = false;
                 });
             }
         }
@@ -206,17 +202,17 @@
             this.scope.newPluginForm.$setUntouched();
             this.scope.newPluginForm.$setPristine();
             this.pluginToken = {
-                name: "",
-                description: "",
+                name: '',
+                description: '',
                 plan: UserPlan.Free,
                 deployables: [],
-                image: "",
-                author: "Mathew Henson",
-                version: "0.0.1"
+                image: '',
+                author: 'Mathew Henson',
+                version: '0.0.1'
             };
 
             this.editMode = false;
-            this.successMessage = "";
+            this.successMessage = '';
             this.showNewPluginForm = !this.showNewPluginForm
         }
     }
