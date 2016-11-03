@@ -1,19 +1,16 @@
-﻿declare var _variables : { [name: string]: string };
+﻿declare var _variables: { [ name: string ]: string };
 
-module HatcheryPlugin
-{
-    export class AppEnginePlugin implements clientAdmin.IAdminPlugin
-    {
+module HatcheryPlugin {
+    export class AppEnginePlugin implements clientAdmin.IAdminPlugin {
         dashboardLinks: Array<clientAdmin.IDashLik>;
 
-        constructor()
-        {
+        constructor() {
             _plugins
-            this.dashboardLinks = [{
+            this.dashboardLinks = [ {
                 icon: "/plugins/hatchery/media/hatchery-icon.png",
                 label: "Hatchery",
                 state: "default.hatchery-users",
-                children: [{
+                children: [ {
                     icon: "/media/images/users.png",
                     label: "Users",
                     state: "default.hatchery-users"
@@ -29,18 +26,16 @@ module HatcheryPlugin
         /**
         * Called when the application module is being setup
         */
-        onInit(mod: angular.IModule): void
-        {
-            mod.controller("pluginCtrl", PluginCtrl);
+        onInit( mod: angular.IModule ): void {
+            mod.controller( "pluginCtrl", PluginCtrl );
         }
 
         /**
         * Called when the states are being setup in config
         */
-        onStatesInit(stateProvider: angular.ui.IStateProvider): void
-        {
+        onStatesInit( stateProvider: angular.ui.IStateProvider ): void {
             stateProvider
-                .state('default.hatchery-plugins', <ng.ui.IState>{
+                .state( 'default.hatchery-plugins', <ng.ui.IState>{
                     templateUrl: 'plugins/hatchery/templates/hatchery-plugins.html',
                     authenticate: true,
                     controller: "pluginCtrl",
@@ -51,4 +46,4 @@ module HatcheryPlugin
     }
 }
 
-_plugins.push(new HatcheryPlugin.AppEnginePlugin());
+_plugins.push( new HatcheryPlugin.AppEnginePlugin() );

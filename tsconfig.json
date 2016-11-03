@@ -1,21 +1,21 @@
 {
-  "compilerOptions": {
-    "module": "amd",
-    "removeComments": false,
-    "noEmitOnError": true,
-    "declaration": false,
-    "sourceMap": false,
-    "preserveConstEnums": true,
-    "target": "es5",
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-    "noImplicitAny": false,
-    "out": "index.js",
-    "outDir": "dist"
-  },
-  "files": [
-      "lib/references.d.ts",
-      "lib/plugin-ctrl.ts",
-      "lib/plugin.ts"
-  ]
+    "compilerOptions": {
+        "module": "amd",
+        "removeComments": false,
+        "noEmitOnError": true,
+        "declaration": false,
+        "sourceMap": false,
+        "preserveConstEnums": true,
+        "target": "es5",
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "noImplicitAny": false,
+        "out": "index.js",
+        "outDir": "dist"
+    },
+    "files": [
+        "lib/references.d.ts",
+        "lib/plugin-ctrl.ts",
+        "lib/plugin.ts"
+    ]
 }

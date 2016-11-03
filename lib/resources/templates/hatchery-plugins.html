@@ -1,27 +1,25 @@
 <div class="plugins state ">
 	<style>
-	.plugins .new-plugin-form {
-		overflow: auto;
-		background: #fff;
-		margin: 10px;
-		padding: 10px;
-	}
-
-	.plugins .buttons {
-		margin: 10px 0;
-		text-align: right;
-	}
-
-
+		.plugins .new-plugin-form {
+			overflow: auto;
+			background: #fff;
+			margin: 10px;
+			padding: 10px;
+		}
+		
+		.plugins .buttons {
+			margin: 10px 0;
+			text-align: right;
+		}
 	</style>
 
 	<error-modal message="controller.errorMsg" visible="controller.error"></error-modal>
 
-    <div class="dialog-modal" ng-if="controller.showMediaBrowser">
-        <div class="big-dialog-box">
-            <ng-include ng-controller="mediaCtrl as mediaController" src="'states/media/dash-media.html'" ng-init="mediaController.multiSelect= false"></ng-include>
-        </div>
-    </div>
+	<div class="dialog-modal" ng-if="controller.showMediaBrowser">
+		<div class="big-dialog-box">
+			<ng-include ng-controller="mediaCtrl as mediaController" src="'states/media/dash-media.html'" ng-init="mediaController.multiSelect= false"></ng-include>
+		</div>
+	</div>
 
 	<state-header text="'Hatchery Plugins'" loading="controller.loading">
 		<div ng-show="!controller.showNewPluginForm">
@@ -31,10 +29,10 @@
 		</div>
 		<div ng-show="controller.showNewPluginForm">
 			<approve-button ng-click="controller.createPlugin()" ng-class="{'hidden': controller.loading}" text="!controller.editMode ? 'New Plugin' : 'Update'"></approve-button>
-            <remove-button ng-class="{'hidden': controller.loading}" ng-click="controller.showNewPluginForm = false" text="'Close'"></remove-button>
-            <span class="success">{{controller.successMessage}}</span>
+			<remove-button ng-class="{'hidden': controller.loading}" ng-click="controller.showNewPluginForm = false" text="'Close'"></remove-button>
+			<span class="success">{{controller.successMessage}}</span>
 		</div>
-    </state-header>
+	</state-header>
 
 
 	<div class="content-view">
@@ -61,8 +59,7 @@
 					</detail>
 
 					<detail text="'Visibility'" info="'If ticked then the plugin is available for users'">
-						<tick-box on-ticked="controller.pluginToken.isPublic = !controller.pluginToken.isPublic"
-							checked="controller.pluginToken.isPublic"
+						<tick-box on-ticked="controller.pluginToken.isPublic = !controller.pluginToken.isPublic" checked="controller.pluginToken.isPublic"
 							text="'Public'"></tick-box>
 					</detail>
 
@@ -77,9 +74,7 @@
 
 					<detail text="'Plan'" info="'Which plan does this plugin belong to'">
 						<div class="dropdown">
-							<select
-								ng-options="plan.value as plan.name for plan in plans"
-								ng-model="controller.pluginToken.plan"></select>
+							<select ng-options="plan.value as plan.name for plan in plans" ng-model="controller.pluginToken.plan"></select>
 						</div>
 						<div class="fix"></div>
 					</detail>
@@ -88,56 +83,56 @@
 		</div>
 
 		<div class="content-view-item-list" ng-show="!controller.showNewPluginForm">
-				<div pager interface="controller.pager" limit="10">
-					<item-panel ng-repeat="plugin in controller.plugins" model="plugin" on-delete="removePlugin">
-						<panel-preview>
-							<div class="view-item-label date">Created: {{plugin.createdOn | date:"MM/dd/yyyy 'at' h:mma"}}</div>
-							<div class="view-item-label date nav-button red-highlight"><a href="" ng-click="controller.editPluginMode(plugin)">Edit</a></div>
-							<div class="view-item-label"><b>{{plugin.name}}</b> : <span class="slug">{{plugin.version}}</span></div>
-						</panel-preview>
-						<panel-content>
-							<detail text="'ID'">
-								<div class="textbox">{{plugin._id}}</div>
-							</detail>
-							<detail text="'Name'">
-								<div class="textbox">{{plugin.name}}</div>
-							</detail>
-							<detail text="'Version'">
-								<div class="textbox">{{plugin.version}}</div>
-							</detail>
-							<detail text="'Description'">
-								<div class="textbox">{{plugin.description}}</div>
-							</detail>
-							<detail text="'URL'">
-								<div class="textbox">{{plugin.url}}</div>
-							</detail>
-							<detail text="'Visibility'">
-								<div class="textbox">{{(plugin.isPublic ? "Public" : "Private")}}</div>
-							</detail>
-							<detail text="'Plan'">
-								<div class="textbox">{{planEnum[plugin.plan]}}</div>
-							</detail>
-							<detail text="'Created On'">
-								<div class="textbox">{{plugin.createdOn | date:"MM/dd/yyyy 'at' h:mma"}}</div>
-							</detail>
-							<detail text="'Last Modified'">
-								<div class="textbox">{{plugin.lastModified | date:"MM/dd/yyyy 'at' h:mma"}}</div>
-							</detail>
-							<detail text="'Deployables'">
-								<div class="textbox">{{plugin.tags.join(", ")}}</div>
-							</detail>
-							<detail text="'Image'">
-								<div class="textbox">{{plugin.image}}></div>
-							</detail>
-							<div class="content-view-detail">
-								<div class="buttons">
-									<div class="nav-button red-highlight" ng-hide="$parent.confirmDelete" ng-click="$parent.confirmDelete=true"><a href="">Remove Plugin</a></div>
-									<add-button ng-click="controller.editPluginMode(plugin)" no-icon="true" text="'Edit Plugin'"></add-button>
-								</div>
+			<div pager interface="controller.pager" limit="10">
+				<item-panel ng-repeat="plugin in controller.plugins" model="plugin" on-delete="removePlugin">
+					<panel-preview>
+						<div class="view-item-label date">Created: {{plugin.createdOn | date:"MM/dd/yyyy 'at' h:mma"}}</div>
+						<div class="view-item-label date nav-button red-highlight"><a href="" ng-click="controller.editPluginMode(plugin)">Edit</a></div>
+						<div class="view-item-label"><b>{{plugin.name}}</b> : <span class="slug">{{plugin.version}}</span></div>
+					</panel-preview>
+					<panel-content>
+						<detail text="'ID'">
+							<div class="textbox">{{plugin._id}}</div>
+						</detail>
+						<detail text="'Name'">
+							<div class="textbox">{{plugin.name}}</div>
+						</detail>
+						<detail text="'Version'">
+							<div class="textbox">{{plugin.version}}</div>
+						</detail>
+						<detail text="'Description'">
+							<div class="textbox">{{plugin.description}}</div>
+						</detail>
+						<detail text="'URL'">
+							<div class="textbox">{{plugin.url}}</div>
+						</detail>
+						<detail text="'Visibility'">
+							<div class="textbox">{{(plugin.isPublic ? "Public" : "Private")}}</div>
+						</detail>
+						<detail text="'Plan'">
+							<div class="textbox">{{planEnum[plugin.plan]}}</div>
+						</detail>
+						<detail text="'Created On'">
+							<div class="textbox">{{plugin.createdOn | date:"MM/dd/yyyy 'at' h:mma"}}</div>
+						</detail>
+						<detail text="'Last Modified'">
+							<div class="textbox">{{plugin.lastModified | date:"MM/dd/yyyy 'at' h:mma"}}</div>
+						</detail>
+						<detail text="'Deployables'">
+							<div class="textbox">{{plugin.tags.join(", ")}}</div>
+						</detail>
+						<detail text="'Image'">
+							<div class="textbox">{{plugin.image}}></div>
+						</detail>
+						<div class="content-view-detail">
+							<div class="buttons">
+								<div class="nav-button red-highlight" ng-hide="$parent.confirmDelete" ng-click="$parent.confirmDelete=true"><a href="">Remove Plugin</a></div>
+								<add-button ng-click="controller.editPluginMode(plugin)" no-icon="true" text="'Edit Plugin'"></add-button>
 							</div>
-						</panel-content>
-					</item-panel>
-				</div>
+						</div>
+					</panel-content>
+				</item-panel>
 			</div>
+		</div>
 	</div>
 </div>
