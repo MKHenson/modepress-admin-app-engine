@@ -1,106 +1,84 @@
-var fs = require('fs');
-var gulp = require('gulp');
-var ts = require('gulp-typescript');
-var download = require('gulp-download');
-var rename = require("gulp-rename");
-var yargs = require("yargs");
+var fs = require( 'fs' );
+var gulp = require( 'gulp' );
+var ts = require( 'gulp-typescript' );
+var download = require( 'gulp-download' );
+var rename = require( "gulp-rename" );
+var yargs = require( "yargs" );
+var utils = require( './gulp/utils.js' );
+var tslint = require( 'gulp-tslint' );
 
-// CONFIG
-// ==============================
-var tsConfig = JSON.parse(fs.readFileSync('tsconfig.json'));
-var tsFiles = tsConfig.files;
-var outDir = tsConfig.compilerOptions.outDir;
-var outFile = tsConfig.compilerOptions.out;
-var modepressPluginDir = yargs.argv.dir || null;
+const tsProject = ts.createProject( 'tsconfig.json' );
+const configFiles = [
+    './readme.md',
+    './test/package.json',
+    'install-script.sh',
+    './package.json'
+];
 
-if (!modepressPluginDir)
-    console.warn("WARNING: No output directory specified.")
-
-/**
- * Checks to see that all TS files listed exist
- */
-gulp.task('check-files', function() {
-
-    // Make sure the files exist
-    for (var i = 0, l = tsFiles.length; i < l; i++ )
-        if(!fs.existsSync(tsFiles[i]))
-        {
-            console.log("File does not exist:" + tsFiles[i] );
-            process.exit();
-        }
-})
+const modepressPluginDir = yargs.argv.dir || null;
+if ( !modepressPluginDir )
+    console.warn( "WARNING: No output directory specified." );
 
 /**
- * Builds each of the ts files into JS files in the output folder
+ * Builds the ts project and moves the js files to a temp directory in
+ * the dist folder
  */
-gulp.task('ts-code', ['check-files'], function() {
-
-    return gulp.src(tsFiles, { base: "lib" })
-        .pipe(ts({
-            "module": tsConfig.compilerOptions.module,
-            "removeComments": tsConfig.compilerOptions.removeComments,
-            "noEmitOnError": tsConfig.compilerOptions.noEmitOnError,
-            "declaration": tsConfig.compilerOptions.declaration,
-            "sourceMap": tsConfig.compilerOptions.sourceMap,
-            "preserveConstEnums": tsConfig.compilerOptions.preserveConstEnums,
-            "target": tsConfig.compilerOptions.target,
-            "noImplicitAny": tsConfig.compilerOptions.noImplicitAny,
-            "out": outFile
-            }))
-        .pipe(gulp.dest(outDir));
+gulp.task( 'compile-typescript', function() {
+    return tsProject.src()
+        .pipe( tsProject() )
+        .js
+        .pipe( gulp.dest( './dist' ) );
 });
 
 /**
- * This function downloads a definition file from github and writes it to a destination
- * @param {string} url The url of the file to download
- * @param {string} dest The destination folder to move the file to
+ * Ensures the code quality is up to scratch
  */
-function getDefinition(url, dest, name) {
-    return new Promise(function(resolve, reject) {
-        download(url)
-            .pipe(rename(name))
-            .pipe(gulp.dest(dest))
-            .on('error', function(err) {
-                throw(err)
-            })
-            .on('end', function() {
-                resolve(true);
-            })
-    });
-}
+gulp.task( 'lint-typescript', function() {
+    return tsProject.src()
+        .pipe( tslint( {
+            configuration: 'tslint.json',
+            formatter: 'verbose'
+        }) )
+        .pipe( tslint.report( {
+            emitError: false
+        }) )
+});
 
 /**
  * Downloads the definition files used in the development of the application and moves them into the definitions folder
  */
-gulp.task('install-definitions', function () {
-     return Promise.all([
-            getDefinition("https://raw.githubusercontent.com/Webinate/users/dev/src/definitions/custom/definitions.d.ts", "lib/definitions/required/", "users.d.ts"),
-            getDefinition("https://raw.githubusercontent.com/Webinate/modepress/dev/src/definitions/custom/modepress-api.d.ts", "lib/definitions/required/", "modepress-api.d.ts"),
-            getDefinition("https://raw.githubusercontent.com/Webinate/modepress-admin/dev/lib/definitions/generated/definitions.d.ts", "lib/definitions/required/", "modepress-admin.d.ts"),
-            getDefinition("https://raw.githubusercontent.com/Webinate/modepress-admin/dev/lib/definitions/generated/modepress-client.d.ts", "lib/definitions/required/", "modepress-admin-plugin.d.ts"),
-            getDefinition("https://raw.githubusercontent.com/Webinate/modepress-client-angular/master/src/definitions/generated/plugin.d.ts", "lib/definitions/required/", "modepress-client.d.ts")
-         ]);
+gulp.task( 'install-definitions', function() {
+    return Promise.all( [
+        utils.getDefinition( 'https://raw.githubusercontent.com/Webinate/users/dev/src/definitions/generated/users.d.ts', 'lib/definitions/required/', 'users.d.ts' ),
+        utils.getDefinition( 'https://raw.githubusercontent.com/Webinate/modepress/dev/src/definitions/generated/modepress.d.ts', 'lib/definitions/required/', 'modepress.d.ts' ),
+        utils.getDefinition( "https://raw.githubusercontent.com/Webinate/modepress-admin/dev/lib/definitions/generated/definitions.d.ts", "lib/definitions/required/", "modepress-admin.d.ts" ),
+        utils.getDefinition( "https://raw.githubusercontent.com/Webinate/modepress-admin/dev/lib/definitions/generated/modepress-client.d.ts", "lib/definitions/required/", "modepress-admin-plugin.d.ts" ),
+        utils.getDefinition( "https://raw.githubusercontent.com/Webinate/modepress-client-angular/master/src/definitions/generated/plugin.d.ts", "lib/definitions/required/", "modepress-client.d.ts" )
+    ] );
 });
 
 /**
  * Builds the definitions and
  */
-gulp.task('copy-resources', function() {
+gulp.task( 'copy-resources', function() {
 
-    return gulp.src("lib/resources/**", { base: "lib/resources" })
-        .pipe(gulp.dest(outDir));
+    return gulp.src( "lib/resources/**", { base: "lib/resources" })
+        .pipe( gulp.dest( './dist' ) );
 });
 
 /**
  * Builds the definitions and
  */
-gulp.task('copy-dist', ['copy-resources'], function() {
-    if (modepressPluginDir == null)
+gulp.task( 'copy-dist', [ 'copy-resources' ], function() {
+    if ( modepressPluginDir == null )
         return Promise.resolve();
 
-    return gulp.src(outDir + "/**", { base: "dist" })
-        .pipe(gulp.dest(modepressPluginDir));
+    return gulp.src( "./dist/**", { base: "dist" })
+        .pipe( gulp.dest( modepressPluginDir ) );
 });
 
-gulp.task('install', ['install-definitions']);
-gulp.task('build', ['ts-code', 'copy-dist']);
+gulp.task( 'bump-patch', function() { return utils.bumpVersion( utils.bumpPatchNum, configFiles ) });
+gulp.task( 'bump-minor', function() { return utils.bumpVersion( utils.bumpMidNum, configFiles ) });
+gulp.task( 'bump-major', function() { return utils.bumpVersion( utils.bumpMajorNum, configFiles ) });
+gulp.task( 'install', [ 'install-definitions' ] );
+gulp.task( 'build', [ 'compile-typescript', 'lint-typescript', 'copy-dist' ] );
