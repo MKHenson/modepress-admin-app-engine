@@ -2,7 +2,7 @@
 A small plugin for the Modepress admin app to manage the various aspects of the hatchery
 
 ## Current stable version
-* v0.1.0
+* v0.2.0
 
 ## Requirements
 * Node 6.2

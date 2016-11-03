@@ -1,6 +1,6 @@
 {
     "name": "modepress-admin-hatchery",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "A small plugin for the modepress-admin app to manage the hatchery backend",
     "main": "gulpfile.js",
     "author": "Mathew Henson",
