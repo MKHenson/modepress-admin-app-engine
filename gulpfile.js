@@ -10,8 +10,7 @@ var tslint = require( 'gulp-tslint' );
 const tsProject = ts.createProject( 'tsconfig.json' );
 const configFiles = [
     './readme.md',
-    './test/package.json',
-    'install-script.sh',
+    './install-script.sh',
     './package.json'
 ];
 
