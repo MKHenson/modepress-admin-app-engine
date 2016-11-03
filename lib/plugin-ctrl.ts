@@ -64,7 +64,7 @@
             this.showNewPluginForm = true;
 
             this.http.get<ModepressAddons.IGetPlugins>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${plugin._id}` ).then(( response ) => {
-                this.pluginToken = response.data.data[ 0 ];
+                this.pluginToken = response.data!.data[ 0 ];
 
                 this.loading = false;
             });
@@ -79,9 +79,9 @@
             this.errorMsg = '';
 
             this.http.delete<Modepress.IResponse>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${plugin._id}` ).then(( response ) => {
-                if ( this.pluginToken = response.data.error ) {
+                if ( this.pluginToken = response.data!.error ) {
                     this.error = true;
-                    this.errorMsg = response.data.message;
+                    this.errorMsg = response.data!.message;
                     return;
                 }
 
@@ -106,8 +106,8 @@
 
                         const toRet = this.http.get<ModepressAddons.IGetPlugins>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins?index=${index}&limit=${limit}&search=${this.searchKeyword}` );
                         toRet.then(( response ) => {
-                            this.plugins = response.data.data;
-                            resolve( response.data.count );
+                            this.plugins = response.data!.data;
+                            resolve( response.data!.count );
 
                         }).catch(( err: Error ) => {
                             this.error = true;
@@ -140,12 +140,12 @@
 
             if ( this.editMode ) {
                 this.http.put<Modepress.IGetPost>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins/${pluginToken._id}`, pluginToken ).then(( token ) => {
-                    if ( token.data.error ) {
+                    if ( token.data!.error ) {
                         this.error = true;
-                        this.errorMsg = token.data.message;
+                        this.errorMsg = token.data!.message;
                     }
                     else {
-                        this.successMessage = token.data.message;
+                        this.successMessage = token.data!.message;
                         for ( let i = 0, l = this.plugins.length; i < l; i++ )
                             if ( this.plugins[ i ]._id === this.pluginToken._id ) {
                                 this.plugins.splice( i, 1, this.pluginToken );
@@ -159,12 +159,12 @@
             }
             else {
                 this.http.post<ModepressAddons.ICreatePlugin>( `${_variables[ 'appEngineUrl' ]}/app-engine/plugins`, pluginToken ).then(( response ) => {
-                    if ( response.data.error ) {
+                    if ( response.data!.error ) {
                         this.error = true;
-                        this.errorMsg = response.data.message;
+                        this.errorMsg = response.data!.message;
                     }
                     else {
-                        this.plugins.push( response.data.data );
+                        this.plugins.push( response.data!.data );
                         this.showNewPluginForm = false;
                     }
 

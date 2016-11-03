@@ -11,7 +11,9 @@
         "allowUnusedLabels": false,
         "noImplicitAny": false,
         "out": "index.js",
-        "outDir": "dist"
+        "outDir": "dist",
+        "strictNullChecks": true,
+        "noUnusedLocals": true
     },
     "files": [
         "lib/references.d.ts",
